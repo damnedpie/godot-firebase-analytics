@@ -1,0 +1,45 @@
+apply plugin: 'com.android.library'
+
+ext.pluginVersionCode = 1
+ext.pluginVersionName = "22.1.2"
+
+android {
+    compileSdk 34
+    namespace "com.onecat.godotfirebaseanalytics"
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 34
+        versionCode pluginVersionCode
+        versionName pluginVersionName
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    ndkVersion '23.2.8568313'
+    libraryVariants.configureEach { variant ->
+        variant.outputs.all { output ->
+            output.outputFileName = "GodotFirebaseAnalytics.$pluginVersionName.${variant.name}.aar"
+        }
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'com.google.firebase:firebase-analytics:22.1.2'
+    compileOnly fileTree(dir: 'libs', includes: ['godot-lib*.aar'])
+}
+
+tasks.register('buildIntoRelease', Copy) {
+    group = "build"
+    dependsOn tasks.build
+    from([buildDir.absolutePath, 'outputs', 'aar'].join(File.separator))
+    include("GodotFirebaseAnalytics.${pluginVersionName}.release.aar")
+    into([rootDir.absolutePath, 'release'].join(File.separator))
+}

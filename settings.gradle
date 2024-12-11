@@ -1,0 +1,2 @@
+include ':godot-firebase-analytics'
+rootProject.name = "Godot Firebase Analytics"
