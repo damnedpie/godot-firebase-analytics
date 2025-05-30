@@ -1,7 +1,9 @@
 apply plugin: 'com.android.library'
 
 ext.pluginVersionCode = 1
-ext.pluginVersionName = "22.1.2"
+ext.pluginVersionName = "22.4.0"
+ext.zipName = "godot-firebase-analytics"
+ext.godotVersion = "3.6"
 
 android {
     compileSdk 34
@@ -32,8 +34,8 @@ android {
 
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.7.0'
-    implementation 'com.google.firebase:firebase-analytics:22.1.2'
-    compileOnly fileTree(dir: 'libs', includes: ['godot-lib*.aar'])
+    implementation 'com.google.firebase:firebase-analytics:22.4.0'
+    implementation 'org.godotengine:godot:3.6.0.stable'
 }
 
 tasks.register('buildIntoRelease', Copy) {
@@ -42,4 +44,16 @@ tasks.register('buildIntoRelease', Copy) {
     from([buildDir.absolutePath, 'outputs', 'aar'].join(File.separator))
     include("GodotFirebaseAnalytics.${pluginVersionName}.release.aar")
     into([rootDir.absolutePath, 'release'].join(File.separator))
+}
+
+tasks.register('buildIntoReleaseAndPrepareForGithub', Zip) {
+    group = "build"
+    dependsOn tasks.buildIntoRelease
+    from([rootDir.absolutePath, 'release'].join(File.separator))
+    include("*.gd", "*.gdap", "*.aar")
+    archiveFileName = "${zipName}-${godotVersion}.zip"
+    destinationDirectory = file([rootDir.absolutePath, 'release'].join(File.separator))
+    def metaTxt = new File([rootDir.absolutePath, 'release', "github-meta.txt"].join(File.separator))
+    metaTxt.text = "SDK ${pluginVersionName}, Godot ${godotVersion}+, rev.1"
+    metaTxt.text += "\nSDK${pluginVersionName}GD${godotVersion}rev1"
 }

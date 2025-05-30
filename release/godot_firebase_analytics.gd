@@ -4,11 +4,11 @@ var _fa : JNISingleton = null
 
 func _ready() -> void:
 	if Engine.has_singleton("GodotFirebaseAnalytics"):
-		print("%s : singletone found" % name)
+		print("%s : singleton found" % name)
 		_fa = Engine.get_singleton("GodotFirebaseAnalytics")
 
 	else:
-		print("%s : FirebaseAnalytics singletone not found" % name)
+		print("%s : FirebaseAnalytics singleton not found" % name)
 
 func logEvent(event:String, params:Dictionary={}) -> void:
 	_fa.logEvent(event, params)

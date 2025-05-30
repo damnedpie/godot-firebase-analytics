@@ -1,10 +1,10 @@
-# Godot Firebase Analytics 22.1.2
+# Godot Firebase Analytics 22.4.0
 [![Godot](https://img.shields.io/badge/Godot%20Engine-3.6-blue?style=for-the-badge&logo=godotengine&logoSize=auto)](https://godotengine.org/)
 [![Firebase Analytics](https://img.shields.io/badge/firebase-ffca28?style=for-the-badge&logo=firebase&logoColor=black)](https://firebase.google.com/docs/analytics)
 [![GitHub License](https://img.shields.io/github/license/damnedpie/godot-firebase-analytics?style=for-the-badge)](#)
 [![GitHub Repo stars](https://img.shields.io/github/stars/damnedpie/godot-firebase-analytics?style=for-the-badge&logo=github&logoSize=auto&color=%23FFD700)](#)
 
-Godot Firebase Analytics 22.1.2 Android plugin for Godot. Built on Godot 3.6 AAR.
+Firebase Analytics 22.4.0 Android plugin for Godot. Built on Godot 3.6 AAR.
 
 ## Setup
 
