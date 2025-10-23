@@ -4,9 +4,6 @@ import android.app.Activity;
 import android.view.View;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import org.godotengine.godot.Dictionary;
@@ -16,20 +13,26 @@ import org.godotengine.godot.plugin.UsedByGodot;
 
 @SuppressWarnings({"unused"})
 public class GodotFirebaseAnalytics extends GodotPlugin {
+
     private FirebaseAnalytics mFirebaseAnalytics;
 
     public GodotFirebaseAnalytics(Godot godot) {
         super(godot);
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
     }
 
-    @Nullable
+    private FirebaseAnalytics getFAInstance() {
+        if (mFirebaseAnalytics == null) {
+            mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+        }
+        return mFirebaseAnalytics;
+    }
+
     @Override
     public View onMainCreate(Activity activity) {
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(activity);
         return null;
     }
 
-    @NonNull
     @Override
     public String getPluginName() {
         return "GodotFirebaseAnalytics";
@@ -38,24 +41,25 @@ public class GodotFirebaseAnalytics extends GodotPlugin {
     @UsedByGodot
     public void logEvent(String event, Dictionary params) {
         if (params.isEmpty()){
-            mFirebaseAnalytics.logEvent(event, null);
+            getFAInstance().logEvent(event, null);
         }
         else {
             Bundle bundle = new Bundle();
             for (String key: params.get_keys()) {
                 bundle.putString(key, params.get(key).toString());
             }
-            mFirebaseAnalytics.logEvent(event, bundle);
+            getFAInstance().logEvent(event, bundle);
         }
     }
 
     @UsedByGodot
     public void setUserId(String uid) {
-        mFirebaseAnalytics.setUserId(uid);
+        getFAInstance().setUserId(uid);
     }
 
+    @UsedByGodot
     public void setUserProperty(String name, String value) {
-        mFirebaseAnalytics.setUserProperty(name, value);
+        getFAInstance().setUserProperty(name, value);
     }
 
 }
